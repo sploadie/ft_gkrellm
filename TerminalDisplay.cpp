@@ -6,7 +6,7 @@
 /*   By: tgauvrit <tgauvrit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 14:31:06 by tgauvrit          #+#    #+#             */
-/*   Updated: 2016/04/16 19:33:37 by tgauvrit         ###   ########.fr       */
+/*   Updated: 2016/04/16 19:59:53 by tgauvrit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,16 @@ int TerminalDisplay::run( void ) {
 	time_t last_time = time(NULL);
 	int	columns_remaining;
 	std::map<char,IMonitorModule*>::iterator it;
+	char ch;
 	while (42) {
 		if (time(NULL) == last_time) continue;
 		last_time = time(NULL);
 		columns_remaining = COLS;
+		// try {
 		for (it=this->_modules.begin(); it!=this->_modules.end(); ++it) {
 			if (it->second != NULL) {
 				if (it->second->isHidden()) continue;
+				// try { columns_remaining -= it->second->toTerminal(COLS - columns_remaining, columns_remaining); } catch(std::exception & e) { endwin(); std::cerr << "it->second->toTerminal : " << e.what() << std::endl; }
 				columns_remaining -= it->second->toTerminal(COLS - columns_remaining, columns_remaining);
 				if (columns_remaining > 0) {
 					move(COLS - columns_remaining, 0);
@@ -72,7 +75,12 @@ int TerminalDisplay::run( void ) {
 				}
 			}
 		}
-		// Listen to User Input
+		// } catch(std::exception & e) { endwin(); std::cerr << "for (it=this->_modules.begin(); : " << e.what() << std::endl; }
+		ch = getch();
+		if (ch == 'q' || ch == 'Q') {
+ 			break;
+ 		}
+		// try { this->refresh(); } catch(std::exception & e) { endwin(); std::cerr << "this->refresh(); : " << e.what() << std::endl; }
 		this->refresh();
 		// Determine # of modules not hidden
 	}

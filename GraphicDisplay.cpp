@@ -1,19 +1,20 @@
 
 #include "GraphicDisplay.hpp"
 
-GraphicDisplay::GraphicDisplay( void ) {}
 GraphicDisplay::GraphicDisplay( GraphicDisplay const & obj ) { *this = obj; }
 GraphicDisplay & GraphicDisplay::operator=( GraphicDisplay const & rhs ) { static_cast<void>(rhs); return *this; }
 
-GraphicDisplay::GraphicDisplay( int argc, char *argv[] ) {
+GraphicDisplay::GraphicDisplay( void ) {
 	// Initialize the widget set
-	this->_app = Gtk::Application::create(argc, argv, "ft_gkrellm");
+	this->_app = Gtk::Application::create();
 
 	// Create the main window
 	this->_mainwin = new Gtk::Window(Gtk::WINDOW_TOPLEVEL);
+	this->_mainwin->set_title("ft_gkrellm");
+	this->_mainwin->set_border_width(5);
 
 	// Create Shared Box
-	this->_box = new Gtk::Box(Gtk::ORIENTATION_VERTICAL);
+	this->_box = new Gtk::Box(Gtk::ORIENTATION_VERTICAL, 5);
 	this->_mainwin->add(*this->_box);
 	this->_box->show();
 }
@@ -34,6 +35,7 @@ bool GraphicDisplay::refresh( void ) {
 
 int GraphicDisplay::run( void ) {
 	sigc::connection conn = Glib::signal_timeout().connect(sigc::mem_fun(*this, &GraphicDisplay::refresh), 1000);
+	this->_mainwin->show_all();
 	int ret = this->_app->run(*this->_mainwin);
 	conn.disconnect();
 	return ret;
@@ -50,5 +52,6 @@ void GraphicDisplay::addModules(std::string modules) {
 		}
 		this->_box->pack_start(*this->_modules['n']->getWidget());
 		this->_modules['n']->getWidget()->show();
+		this->_box->show();
 	}
 }
