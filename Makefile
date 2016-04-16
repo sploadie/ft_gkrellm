@@ -6,7 +6,7 @@
 #    By: tgauvrit <tgauvrit@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/20 16:35:37 by tgauvrit          #+#    #+#              #
-#    Updated: 2016/04/16 16:04:23 by tgauvrit         ###   ########.fr        #
+#    Updated: 2016/04/16 19:28:40 by tgauvrit         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,8 @@ GTKMM3_LIBS :=		$(shell pkg-config gtkmm-3.0 --libs)
 GTKMM3_CFLAGS :=	$(shell pkg-config gtkmm-3.0 --cflags)
 GTKMM3 :=			$(GTKMM3_LIBS) $(GTKMM3_CFLAGS)
 
+NCURSES =			-lncurses
+
 HEADERS =			-I ./ -I /usr/local/opt/ncurses/include
 
 SRC_DIR =			./
@@ -27,7 +29,7 @@ SRC_DIR =			./
 COMPILED_DIR_NAME =	compiled
 COMPILED_DIR =		./$(COMPILED_DIR_NAME)/
 
-FILENAMES =			main IMonitorDisplay IMonitorModule TerminalDisplay GraphicDisplay
+FILENAMES =			main TerminalDisplay GraphicDisplay AMonitorModule NameModule
 
 COMPILED_PATHS :=	$(addsuffix .o,$(FILENAMES))
 COMPILED_PATHS :=	$(addprefix $(COMPILED_DIR),$(COMPILED_PATHS))
@@ -35,7 +37,7 @@ COMPILED_PATHS :=	$(addprefix $(COMPILED_DIR),$(COMPILED_PATHS))
 all: $(NAME)
 
 $(NAME): $(COMPILED_PATHS)
-	$(CC) -o $(NAME) $(FLAGS) $(HEADERS) $(GTKMM3) $(COMPILED_PATHS)
+	$(CC) -o $(NAME) $(FLAGS) $(HEADERS) $(NCURSES) $(GTKMM3) $(COMPILED_PATHS)
 
 $(COMPILED_PATHS): $(COMPILED_DIR)%.o: $(SRC_DIR)%.cpp
 	@/bin/mkdir -p $(COMPILED_DIR)

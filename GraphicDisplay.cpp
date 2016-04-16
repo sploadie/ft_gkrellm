@@ -2,38 +2,53 @@
 #include "GraphicDisplay.hpp"
 
 GraphicDisplay::GraphicDisplay( void ) {}
+GraphicDisplay::GraphicDisplay( GraphicDisplay const & obj ) { *this = obj; }
+GraphicDisplay & GraphicDisplay::operator=( GraphicDisplay const & rhs ) { static_cast<void>(rhs); return *this; }
+
 GraphicDisplay::GraphicDisplay( int argc, char *argv[] ) {
 	// Initialize the widget set
-	Glib::RefPtr<Gtk::Application> app = Gtk::Application::create(argc, argv, "ft_gkrellm");
+	this->_app = Gtk::Application::create(argc, argv, "ft_gkrellm");
 
 	// Create the main window
-	Glib::RefPtr<Gtk::Window> mainwin = Gtk::Window(GTK_WINDOW_TOPLEVEL);
+	this->_mainwin = new Gtk::Window(Gtk::WINDOW_TOPLEVEL);
 
-	// Add default elements
-
+	// Create Shared Box
+	this->_box = new Gtk::Box(Gtk::ORIENTATION_VERTICAL);
+	this->_mainwin->add(*this->_box);
+	this->_box->show();
 }
-
-GraphicDisplay::GraphicDisplay( GraphicDisplay const & obj ) { *this = obj; }
 
 GraphicDisplay::~GraphicDisplay( void ) {
 	for (std::map<char,IMonitorModule*>::iterator it=this->_modules.begin(); it!=this->_modules.end(); ++it)
 		delete it->second;
+	delete this->_box;
+	delete this->_mainwin;
 	return;
 }
 
-GraphicDisplay & GraphicDisplay::operator=( GraphicDisplay const & rhs ) {
-	// Delete Modules
-	// Clone Modules
-	return *this;
+bool GraphicDisplay::refresh( void ) {
+	for (std::map<char,IMonitorModule*>::iterator it=this->_modules.begin(); it!=this->_modules.end(); ++it)
+		it->second->refresh();
+	return true;
 }
 
 int GraphicDisplay::run( void ) {
-	return app->run(this->_mainwin);
+	sigc::connection conn = Glib::signal_timeout().connect(sigc::mem_fun(*this, &GraphicDisplay::refresh), 1000);
+	int ret = this->_app->run(*this->_mainwin);
+	conn.disconnect();
+	return ret;
 }
 
 void GraphicDisplay::addModules(std::string modules) {
-	// Add modules (use case)
-
-	this->_mainwin.add();
-	// MODULE.WIDGET.show();
+	for (std::string::iterator it = modules.begin(); it != modules.end(); ++it) {
+		switch (*it) {
+			case 'n':
+				if (this->_modules.find('n') == this->_modules.end()) this->_modules['n'] = new NameModule(true);
+				break;
+			default:
+				std::cerr << "No valid Module '" << *it << "' found." << std::endl;
+		}
+		this->_box->pack_start(*this->_modules['n']->getWidget());
+		this->_modules['n']->getWidget()->show();
+	}
 }
