@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   IMonitorDisplay.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgauvrit <tgauvrit@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tpaulmye <tpaulmye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 14:30:51 by tgauvrit          #+#    #+#             */
-/*   Updated: 2016/04/16 19:32:16 by tgauvrit         ###   ########.fr       */
+/*   Updated: 2016/04/17 09:53:30 by tpaulmye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 
 # include "IMonitorModule.hpp"
 
-#include "NameModule.hpp"
+# include "NameModule.hpp"
+# include "OsInfoModule.hpp"
 
 class IMonitorDisplay {
 public:

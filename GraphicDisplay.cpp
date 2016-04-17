@@ -47,11 +47,18 @@ void GraphicDisplay::addModules(std::string modules) {
 			case 'n':
 				if (this->_modules.find('n') == this->_modules.end()) this->_modules['n'] = new NameModule(true);
 				break;
+			/*
+			case 'o':
+				if (this->_modules.find('o') == this->_modules.end()) this->_modules['o'] = new OsInfoModule(true);
+				break;
+			*/
 			default:
 				std::cerr << "No valid Module '" << *it << "' found." << std::endl;
 		}
 		this->_box->pack_start(*this->_modules['n']->getWidget());
 		this->_modules['n']->getWidget()->show();
+		//this->_box->pack_start(*this->_modules['o']->getWidget());
+		//this->_modules['o']->getWidget()->show();
 		this->_box->show();
 	}
 }

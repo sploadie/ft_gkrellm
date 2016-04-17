@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   TerminalDisplay.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgauvrit <tgauvrit@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tpaulmye <tpaulmye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 14:31:06 by tgauvrit          #+#    #+#             */
-/*   Updated: 2016/04/16 19:59:53 by tgauvrit         ###   ########.fr       */
+/*   Updated: 2016/04/17 10:06:04 by tpaulmye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ int TerminalDisplay::run( void ) {
 		// } catch(std::exception & e) { endwin(); std::cerr << "for (it=this->_modules.begin(); : " << e.what() << std::endl; }
 		ch = getch();
 		if (ch == 'q' || ch == 'Q') {
+			endwin();
  			break;
  		}
 		// try { this->refresh(); } catch(std::exception & e) { endwin(); std::cerr << "this->refresh(); : " << e.what() << std::endl; }
@@ -92,6 +93,9 @@ void TerminalDisplay::addModules(std::string modules) {
 		switch (*it) {
 			case 'n':
 				if (this->_modules.find('n') == this->_modules.end()) this->_modules['n'] = new NameModule(false);
+				break;
+			case 'o':
+				if (this->_modules.find('o') == this->_modules.end()) this->_modules['o'] = new OsInfoModule(false);
 				break;
 			default:
 				std::cerr << "No valid Module '" << *it << "' found." << std::endl;
