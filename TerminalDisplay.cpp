@@ -6,7 +6,7 @@
 /*   By: tpaulmye <tpaulmye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 14:31:06 by tgauvrit          #+#    #+#             */
-/*   Updated: 2016/04/17 13:58:26 by tpaulmye         ###   ########.fr       */
+/*   Updated: 2016/04/17 15:19:02 by tpaulmye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,24 +57,29 @@ void TerminalDisplay::refresh( void ) {
 
 int TerminalDisplay::run( void ) {
 	time_t last_time = time(NULL);
-	int	columns_remaining;
+	int	lines_used;
+	int	lines_remaining;
 	std::string::iterator it;
 	char ch;
 	while (42) {
 		if (time(NULL) == last_time) continue;
 		last_time = time(NULL);
-		columns_remaining = COLS;
+		refresh();
+		clear();
+		lines_remaining = LINES;
 		// try {
 		for (it=this->_types.begin(); it!=this->_types.end(); ++it) {
 			if (this->_modules[*it] != NULL) {
 				if (this->_modules[*it]->isHidden()) continue;
-				// try { columns_remaining -= this->_modules[*it]->toTerminal(COLS - columns_remaining, columns_remaining); } catch(std::exception & e) { endwin(); std::cerr << "this->_modules[*]->toTerminal : " << e.what() << std::endl; }
-				columns_remaining -= this->_modules[*it]->toTerminal(COLS - columns_remaining, columns_remaining);
-				if (columns_remaining > 0) {
-					move(COLS - columns_remaining, 0);
+				// try { lines_remaining -= this->_modules[*it]->toTerminal(LINES - lines_remaining, lines_remaining); } catch(std::exception & e) { endwin(); std::cerr << "this->_modules[*]->toTerminal : " << e.what() << std::endl; }
+				lines_used = this->_modules[*it]->toTerminal(LINES - lines_remaining, lines_remaining);
+				if (lines_used == 0) continue;
+				lines_remaining -= lines_used;
+				if (lines_remaining > 0) {
+					move(LINES - lines_remaining, 0);
 					hline('=', COLS);
-					--columns_remaining;
-				}
+					--lines_remaining;
+				} else { break; }
 			}
 		}
 		// } catch(std::exception & e) { endwin(); std::cerr << "for (it=this->_modules.begin(); : " << e.what() << std::endl; }
@@ -126,6 +131,18 @@ void TerminalDisplay::addModules(std::string modules) {
 			case 'u':
 				if (this->_modules.find(*it) == this->_modules.end()) {
 					this->_modules[*it] = new UsageModule(false);
+					this->_types.append(1, *it);
+				}
+				break;
+			case 'r':
+				if (this->_modules.find(*it) == this->_modules.end()) {
+					this->_modules[*it] = new RAMModule(false);
+					this->_types.append(1, *it);
+				}
+				break;
+			case 'w':
+				if (this->_modules.find(*it) == this->_modules.end()) {
+					this->_modules[*it] = new NetworkModule(false);
 					this->_types.append(1, *it);
 				}
 				break;

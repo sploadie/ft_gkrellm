@@ -6,7 +6,7 @@
 /*   By: tpaulmye <tpaulmye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 16:22:56 by tgauvrit          #+#    #+#             */
-/*   Updated: 2016/04/17 12:51:38 by tpaulmye         ###   ########.fr       */
+/*   Updated: 2016/04/17 16:10:52 by tpaulmye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ CPUModule::CPUModule( bool has_widget ) : AMonitorModule('c', has_widget) {
 	if (this->_has_widget) {
 		this->_box = new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL, 5);
 		this->_cpu_label = Gtk::manage(new Gtk::Label("CPU"));
-		this->_cpu_label->set_padding(3, 3);
+		this->_cpu_label->set_padding(5, 3);
 		Gtk::Frame* frame;
-		// Host
 		frame = Gtk::manage(new Gtk::Frame("CPU Info"));
+		try { dynamic_cast<Gtk::Label*>(frame->get_label_widget())->set_markup("<b>CPU Info</b>"); } catch(std::exception) {}
 		frame->add(*this->_cpu_label);
 		this->_box->pack_start(*frame);
 
@@ -58,12 +58,12 @@ void CPUModule::refresh( void ) {
 }
 
 int CPUModule::toTerminal(int row, int height) {
-	if (height < 1) return 0;
-	std::string out(std::string("CPU Info: ") + this->_cpuinfo);
-	if (out.size() > static_cast<unsigned long>(COLS))
-		out.erase(COLS, std::string::npos);
+	if (height < 5) return 0;
+	std::string out(std::string("CPU Info:\n") + this->_cpuinfo);
+	// if (out.size() > static_cast<unsigned long>(COLS))
+	// 	out.erase(COLS, std::string::npos);
 	mvaddstr(row, 0, out.c_str());
-	return 1;
+	return 5;
 }
 
 Gtk::Widget* CPUModule::getWidget( void ) { return this->_box; }

@@ -6,7 +6,7 @@
 /*   By: tpaulmye <tpaulmye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 11:22:21 by tgauvrit          #+#    #+#             */
-/*   Updated: 2016/04/17 13:58:52 by tpaulmye         ###   ########.fr       */
+/*   Updated: 2016/04/17 15:20:23 by tpaulmye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int main (int argc, char *argv[])
 	if (argc > 1 && std::string("-t").compare(std::string(argv[1])) == 0)	display = new TerminalDisplay();
 	else														display = new GraphicDisplay();
 	if (argc > 2)	default_modules = std::string(argv[2]);
-	else			default_modules = "notcpu";
+	else			default_modules = "notcpurw";
 	default_modules.erase(std::unique(default_modules.begin(), default_modules.end()), default_modules.end());
 	display->addModules(default_modules);
 	try { display->run(); } catch(std::exception & e) { endwin(); std::cerr << "display->run() : " << e.what() << std::endl; }

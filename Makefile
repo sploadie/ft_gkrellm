@@ -6,7 +6,7 @@
 #    By: tpaulmye <tpaulmye@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/20 16:35:37 by tgauvrit          #+#    #+#              #
-#    Updated: 2016/04/17 13:57:19 by tpaulmye         ###   ########.fr        #
+#    Updated: 2016/04/17 15:20:09 by tpaulmye         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,8 @@ COMPILED_DIR_NAME =	compiled
 COMPILED_DIR =		./$(COMPILED_DIR_NAME)/
 
 FILENAMES =			main TerminalDisplay GraphicDisplay AMonitorModule NameModule \
-					OsInfoModule TimeModule CPUModule ProcModule UsageModule
+					OsInfoModule TimeModule CPUModule ProcModule UsageModule RAMModule \
+					NetworkModule
 
 COMPILED_PATHS :=	$(addsuffix .o,$(FILENAMES))
 COMPILED_PATHS :=	$(addprefix $(COMPILED_DIR),$(COMPILED_PATHS))
@@ -38,11 +39,14 @@ COMPILED_PATHS :=	$(addprefix $(COMPILED_DIR),$(COMPILED_PATHS))
 all: $(NAME)
 
 $(NAME): $(COMPILED_PATHS)
-	$(CC) -o $(NAME) $(FLAGS) $(HEADERS) $(NCURSES) $(GTKMM3) $(COMPILED_PATHS)
+	@echo "\nObject files compiled"
+	@$(CC) -o $(NAME) $(FLAGS) $(HEADERS) $(NCURSES) $(GTKMM3) $(COMPILED_PATHS)
+	@echo "Executable compiled"
 
 $(COMPILED_PATHS): $(COMPILED_DIR)%.o: $(SRC_DIR)%.cpp
 	@/bin/mkdir -p $(COMPILED_DIR)
-	$(CC) -c $(FLAGS) $(HEADERS) $(GTKMM3_CFLAGS) $< -o $@
+	@$(CC) -c $(FLAGS) $(HEADERS) $(GTKMM3_CFLAGS) $< -o $@
+	@echo -n '.'
 
 clean:
 	-/bin/rm -f $(COMPILED_PATHS)

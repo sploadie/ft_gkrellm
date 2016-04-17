@@ -8,6 +8,9 @@ GraphicDisplay::GraphicDisplay( void ) {
 	// Initialize the widget set
 	this->_app = Gtk::Application::create();
 
+	// Settings
+	Gtk::Settings::get_default()->property_gtk_font_name() = "Purisa 14";
+
 	// Create the main window
 	this->_mainwin = new Gtk::Window(Gtk::WINDOW_TOPLEVEL);
 	this->_mainwin->set_title("ft_gkrellm");
@@ -62,6 +65,12 @@ void GraphicDisplay::addModules(std::string modules) {
 				break;
 			case 'u':
 				if (this->_modules.find(*it) == this->_modules.end()) { this->_modules[*it] = new UsageModule(true); new_widget = true; }
+				break;
+			case 'r':
+				if (this->_modules.find(*it) == this->_modules.end()) { this->_modules[*it] = new RAMModule(true); new_widget = true; }
+				break;
+			case 'w':
+				if (this->_modules.find(*it) == this->_modules.end()) { this->_modules[*it] = new NetworkModule(true); new_widget = true; }
 				break;
 			default:
 				std::cerr << "No valid Module '" << *it << "' found." << std::endl;
