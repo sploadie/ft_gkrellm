@@ -6,7 +6,7 @@
 /*   By: tpaulmye <tpaulmye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 16:22:56 by tgauvrit          #+#    #+#             */
-/*   Updated: 2016/04/17 10:14:35 by tpaulmye         ###   ########.fr       */
+/*   Updated: 2016/04/17 11:07:19 by tpaulmye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void OsInfoModule::refresh( void ) {
 	struct utsname name;
 
 	if (!uname(&name)) {
-		this->_osinfo = std::string(name.sysname) + std::string(" ") + std::string(name.release) + std::string(" ") + std::string(name.version) + std::string(" ") + std::string(name.machine);
+		this->_osinfo = std::string(name.sysname) + std::string(" ") + std::string(name.release) + std::string(" ") + std::string(name.machine);
 	} else {
 		this->_osinfo = "Unknown";
 	}
@@ -50,7 +50,7 @@ void OsInfoModule::refresh( void ) {
 
 int OsInfoModule::toTerminal(int row, int height) {
 	if (height < 1) return 0;
-	std::string out(std::string("Os Info : ") + this->_osinfo);
+	std::string out(std::string("OS Info: ") + this->_osinfo);
 	if (out.size() > static_cast<unsigned long>(COLS))
 		out.erase(COLS, std::string::npos);
 	mvaddstr(row, 0, out.c_str());
