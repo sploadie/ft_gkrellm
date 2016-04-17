@@ -1,37 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   TerminalDisplay.hpp                                :+:      :+:    :+:   */
+/*   CPUModule.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tpaulmye <tpaulmye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/04/16 14:31:06 by tgauvrit          #+#    #+#             */
-/*   Updated: 2016/04/17 12:27:04 by tpaulmye         ###   ########.fr       */
+/*   Created: 2016/04/16 16:22:56 by tgauvrit          #+#    #+#             */
+/*   Updated: 2016/04/17 11:26:24 by tpaulmye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TERMINALDISPLAY_H
-# define TERMINALDISPLAY_H
+#ifndef CPUMODULE_H
+# define CPUMODULE_H
 
-# include "IMonitorDisplay.hpp"
-# include <curses.h>
+# include "AMonitorModule.hpp"
 
-class TerminalDisplay : public IMonitorDisplay {
+class CPUModule : public AMonitorModule {
 
 public:
-	TerminalDisplay( void );
-	~TerminalDisplay( void );
 
-	int run( void );
+	CPUModule( bool has_widget );
+
+	~CPUModule( void );
+
 	void refresh( void );
-	void addModules( std::string );
+	int toTerminal(int row, int height);
+	Gtk::Widget* getWidget( void );
 
 private:
-	TerminalDisplay( TerminalDisplay const & obj );
-	TerminalDisplay & operator=( TerminalDisplay const & rhs );
-	std::string						_types;
-	std::map<char, IMonitorModule*>	_modules;
+	CPUModule( void );
+	CPUModule( CPUModule const & obj );
+	CPUModule & operator=( CPUModule const & rhs );
 
+	Gtk::Box* _box;
+	std::string _cpuinfo;
+	Gtk::Label* _cpu_label;
 };
 
 #endif

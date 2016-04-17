@@ -6,7 +6,7 @@
 /*   By: tpaulmye <tpaulmye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 14:31:06 by tgauvrit          #+#    #+#             */
-/*   Updated: 2016/04/17 10:52:00 by tpaulmye         ###   ########.fr       */
+/*   Updated: 2016/04/17 12:34:04 by tpaulmye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ TerminalDisplay::TerminalDisplay( void ) {
 	init_pair(3, COLOR_BLUE, COLOR_BLACK);
 	init_pair(4, COLOR_YELLOW, COLOR_BLACK);
 	init_pair(5, COLOR_BLACK, COLOR_BLACK);
+
+	this->_types = "";
 }
 
 TerminalDisplay::TerminalDisplay( TerminalDisplay const & obj ) { *this = obj; }
@@ -56,18 +58,18 @@ void TerminalDisplay::refresh( void ) {
 int TerminalDisplay::run( void ) {
 	time_t last_time = time(NULL);
 	int	columns_remaining;
-	std::map<char,IMonitorModule*>::iterator it;
+	std::string::iterator it;
 	char ch;
 	while (42) {
 		if (time(NULL) == last_time) continue;
 		last_time = time(NULL);
 		columns_remaining = COLS;
 		// try {
-		for (it=this->_modules.begin(); it!=this->_modules.end(); ++it) {
-			if (it->second != NULL) {
-				if (it->second->isHidden()) continue;
-				// try { columns_remaining -= it->second->toTerminal(COLS - columns_remaining, columns_remaining); } catch(std::exception & e) { endwin(); std::cerr << "it->second->toTerminal : " << e.what() << std::endl; }
-				columns_remaining -= it->second->toTerminal(COLS - columns_remaining, columns_remaining);
+		for (it=this->_types.begin(); it!=this->_types.end(); ++it) {
+			if (this->_modules[*it] != NULL) {
+				if (this->_modules[*it]->isHidden()) continue;
+				// try { columns_remaining -= this->_modules[*it]->toTerminal(COLS - columns_remaining, columns_remaining); } catch(std::exception & e) { endwin(); std::cerr << "this->_modules[*]->toTerminal : " << e.what() << std::endl; }
+				columns_remaining -= this->_modules[*it]->toTerminal(COLS - columns_remaining, columns_remaining);
 				if (columns_remaining > 0) {
 					move(COLS - columns_remaining, 0);
 					hline('=', COLS);
@@ -92,13 +94,28 @@ void TerminalDisplay::addModules(std::string modules) {
 	for (std::string::iterator it = modules.begin(); it != modules.end(); ++it) {
 		switch (*it) {
 			case 'n':
-				if (this->_modules.find('n') == this->_modules.end()) this->_modules['n'] = new NameModule(false);
+				if (this->_modules.find('n') == this->_modules.end()) {
+					this->_modules['n'] = new NameModule(false);
+					this->_types.append(1, *it);
+				}
 				break;
 			case 'o':
-				if (this->_modules.find('o') == this->_modules.end()) this->_modules['o'] = new OsInfoModule(false);
+				if (this->_modules.find('o') == this->_modules.end()) {
+					this->_modules['o'] = new OsInfoModule(false);
+					this->_types.append(1, *it);
+				}
 				break;
 			case 't':
-				if (this->_modules.find('t') == this->_modules.end()) this->_modules['t'] = new TimeModule(false);
+				if (this->_modules.find('t') == this->_modules.end()) {
+					this->_modules['t'] = new TimeModule(false);
+					this->_types.append(1, *it);
+				}
+				break;
+			case 'c':
+				if (this->_modules.find('c') == this->_modules.end()) {
+					this->_modules['c'] = new CPUModule(false);
+					this->_types.append(1, *it);
+				}
 				break;
 			default:
 				std::cerr << "No valid Module '" << *it << "' found." << std::endl;

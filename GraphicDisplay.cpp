@@ -16,7 +16,7 @@ GraphicDisplay::GraphicDisplay( void ) {
 	// Create Shared Box
 	this->_box = new Gtk::Box(Gtk::ORIENTATION_VERTICAL, 5);
 	this->_mainwin->add(*this->_box);
-	this->_box->show();
+	// this->_box->show();
 }
 
 GraphicDisplay::~GraphicDisplay( void ) {
@@ -42,24 +42,29 @@ int GraphicDisplay::run( void ) {
 }
 
 void GraphicDisplay::addModules(std::string modules) {
+	bool new_widget = false;
 	for (std::string::iterator it = modules.begin(); it != modules.end(); ++it) {
 		switch (*it) {
 			case 'n':
-				if (this->_modules.find('n') == this->_modules.end()) this->_modules['n'] = new NameModule(true);
+				if (this->_modules.find('n') == this->_modules.end()) { this->_modules['n'] = new NameModule(true); new_widget = true; }
 				break;
 			case 'o':
-				if (this->_modules.find('o') == this->_modules.end()) this->_modules['o'] = new OsInfoModule(true);
+				if (this->_modules.find('o') == this->_modules.end()) { this->_modules['o'] = new OsInfoModule(true); new_widget = true; }
 				break;
 			case 't':
-				if (this->_modules.find('t') == this->_modules.end()) this->_modules['t'] = new TimeModule(true);
+				if (this->_modules.find('t') == this->_modules.end()) { this->_modules['t'] = new TimeModule(true); new_widget = true; }
+				break;
+			case 'c':
+				if (this->_modules.find('c') == this->_modules.end()) { this->_modules['c'] = new CPUModule(true); new_widget = true; }
 				break;
 			default:
 				std::cerr << "No valid Module '" << *it << "' found." << std::endl;
 		}
+		if (new_widget) {
+			new_widget = false;
+			this->_box->pack_start(*this->_modules[*it]->getWidget());
+			// this->_modules[*it]->getWidget()->show();
+		}
 	}
-	for (std::map<char,IMonitorModule*>::iterator it=this->_modules.begin(); it!=this->_modules.end(); ++it) {
-		this->_box->pack_start(*it->second->getWidget());
-		it->second->getWidget()->show();
-	}
-	this->_box->show();
+	// this->_box->show();
 }
