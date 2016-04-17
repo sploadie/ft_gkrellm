@@ -46,16 +46,19 @@ void GraphicDisplay::addModules(std::string modules) {
 	for (std::string::iterator it = modules.begin(); it != modules.end(); ++it) {
 		switch (*it) {
 			case 'n':
-				if (this->_modules.find('n') == this->_modules.end()) { this->_modules['n'] = new NameModule(true); new_widget = true; }
+				if (this->_modules.find(*it) == this->_modules.end()) { this->_modules[*it] = new NameModule(true); new_widget = true; }
 				break;
 			case 'o':
-				if (this->_modules.find('o') == this->_modules.end()) { this->_modules['o'] = new OsInfoModule(true); new_widget = true; }
+				if (this->_modules.find(*it) == this->_modules.end()) { this->_modules[*it] = new OsInfoModule(true); new_widget = true; }
 				break;
 			case 't':
-				if (this->_modules.find('t') == this->_modules.end()) { this->_modules['t'] = new TimeModule(true); new_widget = true; }
+				if (this->_modules.find(*it) == this->_modules.end()) { this->_modules[*it] = new TimeModule(true); new_widget = true; }
 				break;
 			case 'c':
-				if (this->_modules.find('c') == this->_modules.end()) { this->_modules['c'] = new CPUModule(true); new_widget = true; }
+				if (this->_modules.find(*it) == this->_modules.end()) { this->_modules[*it] = new CPUModule(true); new_widget = true; }
+				break;
+			case 'p':
+				if (this->_modules.find(*it) == this->_modules.end()) { this->_modules[*it] = new ProcModule(true); new_widget = true; }
 				break;
 			default:
 				std::cerr << "No valid Module '" << *it << "' found." << std::endl;

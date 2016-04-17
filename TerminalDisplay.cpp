@@ -6,7 +6,7 @@
 /*   By: tpaulmye <tpaulmye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 14:31:06 by tgauvrit          #+#    #+#             */
-/*   Updated: 2016/04/17 12:34:04 by tpaulmye         ###   ########.fr       */
+/*   Updated: 2016/04/17 13:08:36 by tpaulmye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,26 +94,32 @@ void TerminalDisplay::addModules(std::string modules) {
 	for (std::string::iterator it = modules.begin(); it != modules.end(); ++it) {
 		switch (*it) {
 			case 'n':
-				if (this->_modules.find('n') == this->_modules.end()) {
-					this->_modules['n'] = new NameModule(false);
+				if (this->_modules.find(*it) == this->_modules.end()) {
+					this->_modules[*it] = new NameModule(false);
 					this->_types.append(1, *it);
 				}
 				break;
 			case 'o':
-				if (this->_modules.find('o') == this->_modules.end()) {
-					this->_modules['o'] = new OsInfoModule(false);
+				if (this->_modules.find(*it) == this->_modules.end()) {
+					this->_modules[*it] = new OsInfoModule(false);
 					this->_types.append(1, *it);
 				}
 				break;
 			case 't':
-				if (this->_modules.find('t') == this->_modules.end()) {
-					this->_modules['t'] = new TimeModule(false);
+				if (this->_modules.find(*it) == this->_modules.end()) {
+					this->_modules[*it] = new TimeModule(false);
 					this->_types.append(1, *it);
 				}
 				break;
 			case 'c':
-				if (this->_modules.find('c') == this->_modules.end()) {
-					this->_modules['c'] = new CPUModule(false);
+				if (this->_modules.find(*it) == this->_modules.end()) {
+					this->_modules[*it] = new CPUModule(false);
+					this->_types.append(1, *it);
+				}
+				break;
+			case 'p':
+				if (this->_modules.find(*it) == this->_modules.end()) {
+					this->_modules[*it] = new ProcModule(false);
 					this->_types.append(1, *it);
 				}
 				break;

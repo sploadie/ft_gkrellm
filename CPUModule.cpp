@@ -6,7 +6,7 @@
 /*   By: tpaulmye <tpaulmye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 16:22:56 by tgauvrit          #+#    #+#             */
-/*   Updated: 2016/04/17 12:02:14 by tpaulmye         ###   ########.fr       */
+/*   Updated: 2016/04/17 12:51:38 by tpaulmye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void CPUModule::refresh( void ) {
 	char		buf[256];
 	std::string	cpuinfo;
 
-	info = popen("/usr/sbin/system_profiler SPHardwareDataType", "r");
+	info = popen("/usr/sbin/system_profiler SPHardwareDataType | /usr/bin/grep \"Proc\\|Cores\" | /usr/bin/sed 's/^[\t ]*//g'", "r");
 	if (info == NULL) {
 		this->_cpuinfo = "Information unavailable";
 		return ;
@@ -50,6 +50,7 @@ void CPUModule::refresh( void ) {
 		cpuinfo.append(buf);
 	}
 	pclose(info);
+	cpuinfo.erase(std::remove(cpuinfo.end()-1, cpuinfo.end(), '\n'), cpuinfo.end());
 	this->_cpuinfo = cpuinfo;
 	if (this->_has_widget) {
 		this->_cpu_label->set_text(this->_cpuinfo);
