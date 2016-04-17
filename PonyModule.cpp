@@ -6,7 +6,7 @@
 /*   By: tpaulmye <tpaulmye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 16:22:56 by tgauvrit          #+#    #+#             */
-/*   Updated: 2016/04/17 17:04:56 by tpaulmye         ###   ########.fr       */
+/*   Updated: 2016/04/17 18:15:50 by tpaulmye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,9 @@ void PonyModule::refresh( void ) {
 
 int PonyModule::toTerminal(int row, int height) {
 	if (height < 9) return 0;
+	attron(COLOR_PAIR(6));
 	mvaddstr(row, 0, this->_procinfo.c_str());
+	attroff(COLOR_PAIR(6));
 	return 9;
 }
 

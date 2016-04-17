@@ -6,7 +6,7 @@
 /*   By: tpaulmye <tpaulmye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 14:31:06 by tgauvrit          #+#    #+#             */
-/*   Updated: 2016/04/17 17:06:02 by tpaulmye         ###   ########.fr       */
+/*   Updated: 2016/04/17 18:14:51 by tpaulmye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ TerminalDisplay::TerminalDisplay( void ) {
 	init_pair(3, COLOR_BLUE, COLOR_BLACK);
 	init_pair(4, COLOR_YELLOW, COLOR_BLACK);
 	init_pair(5, COLOR_BLACK, COLOR_BLACK);
+	init_pair(6, COLOR_MAGENTA, COLOR_BLACK);
 
 	this->_types = "";
 }
