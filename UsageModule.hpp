@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   UsageModule.hpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpaulmye <tpaulmye@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tgauvrit <tgauvrit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 16:22:56 by tgauvrit          #+#    #+#             */
-/*   Updated: 2016/04/17 13:57:04 by tpaulmye         ###   ########.fr       */
+/*   Updated: 2016/04/17 18:14:13 by tgauvrit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ public:
 	void refresh( void );
 	int toTerminal(int row, int height);
 	Gtk::Widget* getWidget( void );
+	bool onClick( void );
 
 private:
 	UsageModule( void );
@@ -33,8 +34,11 @@ private:
 	UsageModule & operator=( UsageModule const & rhs );
 
 	Gtk::Box* _box;
+	Gtk::Frame* _frame;
 	std::string _procinfo;
 	Gtk::Label* _proc_label;
+	bool _visual;
+	Gtk::DrawingArea* _drawing_area;
 };
 
 #endif

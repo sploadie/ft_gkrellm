@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   UsageModule.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpaulmye <tpaulmye@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tgauvrit <tgauvrit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 16:22:56 by tgauvrit          #+#    #+#             */
-/*   Updated: 2016/04/17 16:11:51 by tpaulmye         ###   ########.fr       */
+/*   Updated: 2016/04/17 20:14:30 by tgauvrit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,37 @@ UsageModule::UsageModule( void ) : AMonitorModule('u', false) {}
 UsageModule::UsageModule( UsageModule const & obj ) : AMonitorModule('u', false) { static_cast<void>(obj); }
 UsageModule & UsageModule::operator=( UsageModule const & rhs ) { static_cast<void>(rhs); return *this; }
 
+bool UsageModule::onClick( void ) {
+	this->_visual = (this->_visual ? false : true);
+	this->_frame->remove();
+	return true;
+}
+
 UsageModule::UsageModule( bool has_widget ) : AMonitorModule('u', has_widget) {
+	this->_visual = false;
 	if (this->_has_widget) {
 		this->_box = new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL, 5);
-		this->_proc_label = Gtk::manage(new Gtk::Label("USAGE"));
+		this->_proc_label = new Gtk::Label("USAGE");
 		this->_proc_label->set_padding(5, 3);
-		Gtk::Frame* frame;
-		frame = Gtk::manage(new Gtk::Frame("CPU Usage"));
-		try { dynamic_cast<Gtk::Label*>(frame->get_label_widget())->set_markup("<b>CPU Usage</b>"); } catch(std::exception) {}
-		frame->add(*this->_proc_label);
-		this->_box->pack_start(*frame);
-
+		this->_frame = Gtk::manage(new Gtk::Frame("CPU Usage"));
+		try { dynamic_cast<Gtk::Label*>(this->_frame->get_label_widget())->set_markup("<b>CPU Usage</b>"); } catch(std::exception) {}
+		this->_frame->add(*this->_proc_label);
+		Gtk::EventBox* event_box = Gtk::manage(new Gtk::EventBox());
+		event_box->add(*this->_frame);
+		event_box->add_events(Gdk::ALL_EVENTS_MASK);
+		event_box->signal_button_release_event().connect(sigc::hide(sigc::mem_fun(*this, &UsageModule::onClick)));
+		this->_box->pack_start(*event_box);
+		this->_drawing_area = NULL;
 		this->refresh();
 	}
 }
 
 UsageModule::~UsageModule( void ) {
-	if (this->_has_widget) delete this->_box;
+	if (this->_has_widget) {
+		delete this->_box;
+		delete this->_proc_label;
+		if (this->_drawing_area != NULL) delete this->_drawing_area;
+	}
 }
 
 void UsageModule::refresh( void ) {
@@ -54,6 +68,43 @@ void UsageModule::refresh( void ) {
 	this->_procinfo = procinfo;
 	if (this->_has_widget) {
 		this->_proc_label->set_text(this->_procinfo);
+		if (this->_visual) {
+			float f = 0.0;
+			try { f = stof(this->_procinfo.substr(this->_procinfo.find_last_of('\n'), std::string::npos)); } catch(std::exception) {}
+			f = f / 100;
+			if (this->_drawing_area == NULL) {
+				this->_drawing_area = new Gtk::DrawingArea;
+			}
+			if (this->_drawing_area->get_window() != static_cast<Glib::RefPtr<Gdk::Window> >(nullptr)) {
+				std::cout << f << std::endl;
+				Cairo::RefPtr<Cairo::Context> cr = this->_drawing_area->get_window()->create_cairo_context();
+				// this->_drawing_area->queue_draw();
+				// cr->save();
+				cr->set_source_rgb(1.0, 0.0, 0.0);
+				cr->set_line_width(2.0);
+				Gtk::Allocation a = this->_drawing_area->get_allocation();
+				const int width = a.get_width();
+				const int height = a.get_height();
+				int xc, yc;
+				xc = width / 2;
+				yc = height / 2;
+				cr->move_to(width-1, height);
+				cr->line_to(width-1, static_cast<float>(height) * f);
+				cr->stroke();
+				// cr->restore();
+				this->_drawing_area->queue_draw();
+			}
+		}
+		if (this->_frame->get_child() == nullptr) {
+			if (this->_visual && this->_drawing_area != NULL) {
+				this->_frame->add(*this->_drawing_area);
+				this->_drawing_area->set_hexpand(true);
+				this->_drawing_area->set_vexpand(true);
+			} else {
+				this->_frame->add(*this->_proc_label);
+			}
+			this->_frame->show_all();
+		}
 	}
 }
 
