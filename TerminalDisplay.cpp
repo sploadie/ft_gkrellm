@@ -6,7 +6,7 @@
 /*   By: tpaulmye <tpaulmye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 14:31:06 by tgauvrit          #+#    #+#             */
-/*   Updated: 2016/04/17 18:14:51 by tpaulmye         ###   ########.fr       */
+/*   Updated: 2016/04/17 19:14:30 by tpaulmye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,18 @@ int TerminalDisplay::run( void ) {
 	std::string::iterator it;
 	char ch;
 	while (42) {
+		ch = getch();
+		if (ch == 'q' || ch == 'Q') {
+			endwin();
+ 			break;
+ 		} else if (ch != ERR) {
+			if (this->_modules.find(ch) != this->_modules.end()) {
+				this->_modules[ch]->swapHide();
+			} else {
+				this->addModules(std::string(1, ch));
+			}
+			last_time = 0;
+		}
 		if (time(NULL) == last_time) continue;
 		last_time = time(NULL);
 		::refresh();
@@ -84,11 +96,6 @@ int TerminalDisplay::run( void ) {
 			}
 		}
 		// } catch(std::exception & e) { endwin(); std::cerr << "for (it=this->_modules.begin(); : " << e.what() << std::endl; }
-		ch = getch();
-		if (ch == 'q' || ch == 'Q') {
-			endwin();
- 			break;
- 		}
 		// try { this->refresh(); } catch(std::exception & e) { endwin(); std::cerr << "this->refresh(); : " << e.what() << std::endl; }
 		this->refresh();
 		// Determine # of modules not hidden

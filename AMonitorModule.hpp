@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   AMonitorModule.hpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgauvrit <tgauvrit@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tpaulmye <tpaulmye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 16:07:47 by tgauvrit          #+#    #+#             */
-/*   Updated: 2016/04/16 19:31:17 by tgauvrit         ###   ########.fr       */
+/*   Updated: 2016/04/17 18:47:22 by tpaulmye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ protected:
 	char						_type;
 	bool						_show;
 	bool						_has_widget;
+	Gtk::Box*					_box;
 };
 
 #endif

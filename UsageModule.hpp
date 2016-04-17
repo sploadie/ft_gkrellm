@@ -6,7 +6,7 @@
 /*   By: tpaulmye <tpaulmye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 16:22:56 by tgauvrit          #+#    #+#             */
-/*   Updated: 2016/04/17 13:57:04 by tpaulmye         ###   ########.fr       */
+/*   Updated: 2016/04/17 18:50:20 by tpaulmye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ private:
 	UsageModule( UsageModule const & obj );
 	UsageModule & operator=( UsageModule const & rhs );
 
-	Gtk::Box* _box;
+	// Gtk::Box* _box;
 	std::string _procinfo;
 	Gtk::Label* _proc_label;
 };

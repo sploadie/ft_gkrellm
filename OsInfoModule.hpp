@@ -6,7 +6,7 @@
 /*   By: tpaulmye <tpaulmye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 16:22:56 by tgauvrit          #+#    #+#             */
-/*   Updated: 2016/04/17 09:54:49 by tpaulmye         ###   ########.fr       */
+/*   Updated: 2016/04/17 18:50:40 by tpaulmye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ private:
 	OsInfoModule( OsInfoModule const & obj );
 	OsInfoModule & operator=( OsInfoModule const & rhs );
 
-	Gtk::Box* _box;
+	// Gtk::Box* _box;
 	std::string _osinfo;
 	Gtk::Label* _osinfo_label;
 };

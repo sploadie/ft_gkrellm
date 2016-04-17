@@ -6,7 +6,7 @@
 /*   By: tpaulmye <tpaulmye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 16:22:56 by tgauvrit          #+#    #+#             */
-/*   Updated: 2016/04/17 10:30:45 by tpaulmye         ###   ########.fr       */
+/*   Updated: 2016/04/17 18:50:27 by tpaulmye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ private:
 	TimeModule( TimeModule const & obj );
 	TimeModule & operator=( TimeModule const & rhs );
 
-	Gtk::Box* _box;
+	// Gtk::Box* _box;
 	std::string _time;
 	Gtk::Label* _time_label;
 };

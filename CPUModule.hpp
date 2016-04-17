@@ -6,7 +6,7 @@
 /*   By: tpaulmye <tpaulmye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 16:22:56 by tgauvrit          #+#    #+#             */
-/*   Updated: 2016/04/17 11:26:24 by tpaulmye         ###   ########.fr       */
+/*   Updated: 2016/04/17 18:50:52 by tpaulmye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ private:
 	CPUModule( CPUModule const & obj );
 	CPUModule & operator=( CPUModule const & rhs );
 
-	Gtk::Box* _box;
+	// Gtk::Box* _box;
 	std::string _cpuinfo;
 	Gtk::Label* _cpu_label;
 };

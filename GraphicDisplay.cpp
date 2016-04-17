@@ -15,11 +15,25 @@ GraphicDisplay::GraphicDisplay( void ) {
 	this->_mainwin = new Gtk::Window(Gtk::WINDOW_TOPLEVEL);
 	this->_mainwin->set_title("ft_gkrellm");
 	this->_mainwin->set_border_width(5);
+	this->_mainwin->add_events(Gdk::KEY_PRESS_MASK);
+	this->_mainwin->signal_key_press_event().connect(
+    sigc::mem_fun(*this, &GraphicDisplay::keypress));
 
 	// Create Shared Box
 	this->_box = new Gtk::Box(Gtk::ORIENTATION_VERTICAL, 5);
 	this->_mainwin->add(*this->_box);
 	// this->_box->show();
+}
+
+bool GraphicDisplay::keypress(GdkEventKey* e) {
+	std::string key = gdk_keyval_name(e->keyval);
+	if (key.size() != 1) return true;
+	if (this->_modules.find(key[0]) != this->_modules.end()) {
+		this->_modules[key[0]]->swapHide();
+	} else {
+		this->addModules(key);
+	}
+	return true;
 }
 
 GraphicDisplay::~GraphicDisplay( void ) {
@@ -81,7 +95,7 @@ void GraphicDisplay::addModules(std::string modules) {
 		if (new_widget) {
 			new_widget = false;
 			this->_box->pack_start(*this->_modules[*it]->getWidget());
-			// this->_modules[*it]->getWidget()->show();
+			this->_modules[*it]->getWidget()->show_all();
 		}
 	}
 	// this->_box->show();

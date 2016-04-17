@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   GraphicDisplay.hpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgauvrit <tgauvrit@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tpaulmye <tpaulmye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 14:32:22 by tgauvrit          #+#    #+#             */
-/*   Updated: 2016/04/16 19:43:48 by tgauvrit         ###   ########.fr       */
+/*   Updated: 2016/04/17 18:29:35 by tpaulmye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ public:
 	int run( void );
 	bool refresh( void );
 	void addModules( std::string );
+	bool keypress(GdkEventKey* e);
 
 private:
 	GraphicDisplay( GraphicDisplay const & obj );

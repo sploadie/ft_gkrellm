@@ -6,7 +6,7 @@
 /*   By: tpaulmye <tpaulmye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 16:22:56 by tgauvrit          #+#    #+#             */
-/*   Updated: 2016/04/17 15:18:33 by tpaulmye         ###   ########.fr       */
+/*   Updated: 2016/04/17 18:50:42 by tpaulmye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ private:
 	NetworkModule( NetworkModule const & obj );
 	NetworkModule & operator=( NetworkModule const & rhs );
 
-	Gtk::Box* _box;
+	// Gtk::Box* _box;
 	std::string _procinfo;
 	Gtk::Label* _proc_label;
 };
