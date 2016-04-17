@@ -47,18 +47,19 @@ void GraphicDisplay::addModules(std::string modules) {
 			case 'n':
 				if (this->_modules.find('n') == this->_modules.end()) this->_modules['n'] = new NameModule(true);
 				break;
-			/*
 			case 'o':
 				if (this->_modules.find('o') == this->_modules.end()) this->_modules['o'] = new OsInfoModule(true);
 				break;
-			*/
+			case 't':
+				if (this->_modules.find('t') == this->_modules.end()) this->_modules['t'] = new TimeModule(true);
+				break;
 			default:
 				std::cerr << "No valid Module '" << *it << "' found." << std::endl;
 		}
-		this->_box->pack_start(*this->_modules['n']->getWidget());
-		this->_modules['n']->getWidget()->show();
-		//this->_box->pack_start(*this->_modules['o']->getWidget());
-		//this->_modules['o']->getWidget()->show();
-		this->_box->show();
 	}
+	for (std::map<char,IMonitorModule*>::iterator it=this->_modules.begin(); it!=this->_modules.end(); ++it) {
+		this->_box->pack_start(*it->second->getWidget());
+		it->second->getWidget()->show();
+	}
+	this->_box->show();
 }

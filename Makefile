@@ -6,7 +6,7 @@
 #    By: tpaulmye <tpaulmye@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/20 16:35:37 by tgauvrit          #+#    #+#              #
-#    Updated: 2016/04/17 10:03:15 by tpaulmye         ###   ########.fr        #
+#    Updated: 2016/04/17 10:50:55 by tpaulmye         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,8 @@ SRC_DIR =			./
 COMPILED_DIR_NAME =	compiled
 COMPILED_DIR =		./$(COMPILED_DIR_NAME)/
 
-FILENAMES =			main TerminalDisplay GraphicDisplay AMonitorModule NameModule OsInfoModule
+FILENAMES =			main TerminalDisplay GraphicDisplay AMonitorModule NameModule \
+					OsInfoModule TimeModule
 
 COMPILED_PATHS :=	$(addsuffix .o,$(FILENAMES))
 COMPILED_PATHS :=	$(addprefix $(COMPILED_DIR),$(COMPILED_PATHS))

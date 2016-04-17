@@ -6,7 +6,7 @@
 /*   By: tpaulmye <tpaulmye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 14:31:06 by tgauvrit          #+#    #+#             */
-/*   Updated: 2016/04/17 10:06:04 by tpaulmye         ###   ########.fr       */
+/*   Updated: 2016/04/17 10:52:00 by tpaulmye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,9 @@ void TerminalDisplay::addModules(std::string modules) {
 				break;
 			case 'o':
 				if (this->_modules.find('o') == this->_modules.end()) this->_modules['o'] = new OsInfoModule(false);
+				break;
+			case 't':
+				if (this->_modules.find('t') == this->_modules.end()) this->_modules['t'] = new TimeModule(false);
 				break;
 			default:
 				std::cerr << "No valid Module '" << *it << "' found." << std::endl;
