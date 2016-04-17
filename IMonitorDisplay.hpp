@@ -6,7 +6,7 @@
 /*   By: tpaulmye <tpaulmye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 14:30:51 by tgauvrit          #+#    #+#             */
-/*   Updated: 2016/04/17 13:06:28 by tpaulmye         ###   ########.fr       */
+/*   Updated: 2016/04/17 13:57:44 by tpaulmye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include "TimeModule.hpp"
 # include "CPUModule.hpp"
 # include "ProcModule.hpp"
+# include "UsageModule.hpp"
 
 class IMonitorDisplay {
 public:

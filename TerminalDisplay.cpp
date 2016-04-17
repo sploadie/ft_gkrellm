@@ -6,7 +6,7 @@
 /*   By: tpaulmye <tpaulmye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 14:31:06 by tgauvrit          #+#    #+#             */
-/*   Updated: 2016/04/17 13:08:36 by tpaulmye         ###   ########.fr       */
+/*   Updated: 2016/04/17 13:58:26 by tpaulmye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,12 @@ void TerminalDisplay::addModules(std::string modules) {
 			case 'p':
 				if (this->_modules.find(*it) == this->_modules.end()) {
 					this->_modules[*it] = new ProcModule(false);
+					this->_types.append(1, *it);
+				}
+				break;
+			case 'u':
+				if (this->_modules.find(*it) == this->_modules.end()) {
+					this->_modules[*it] = new UsageModule(false);
 					this->_types.append(1, *it);
 				}
 				break;

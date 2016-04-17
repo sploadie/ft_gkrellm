@@ -1,30 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ProcModule.cpp                                     :+:      :+:    :+:   */
+/*   UsageModule.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tpaulmye <tpaulmye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 16:22:56 by tgauvrit          #+#    #+#             */
-/*   Updated: 2016/04/17 14:00:09 by tpaulmye         ###   ########.fr       */
+/*   Updated: 2016/04/17 14:00:26 by tpaulmye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ProcModule.hpp"
+#include "UsageModule.hpp"
 #include <cstdio>
 
-ProcModule::ProcModule( void ) : AMonitorModule('p', false) {}
-ProcModule::ProcModule( ProcModule const & obj ) : AMonitorModule('p', false) { static_cast<void>(obj); }
-ProcModule & ProcModule::operator=( ProcModule const & rhs ) { static_cast<void>(rhs); return *this; }
+UsageModule::UsageModule( void ) : AMonitorModule('u', false) {}
+UsageModule::UsageModule( UsageModule const & obj ) : AMonitorModule('u', false) { static_cast<void>(obj); }
+UsageModule & UsageModule::operator=( UsageModule const & rhs ) { static_cast<void>(rhs); return *this; }
 
-ProcModule::ProcModule( bool has_widget ) : AMonitorModule('p', has_widget) {
+UsageModule::UsageModule( bool has_widget ) : AMonitorModule('u', has_widget) {
 	if (this->_has_widget) {
 		this->_box = new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL, 5);
-		this->_proc_label = Gtk::manage(new Gtk::Label("PROCESSES"));
+		this->_proc_label = Gtk::manage(new Gtk::Label("USAGE"));
 		this->_proc_label->set_padding(3, 3);
 		Gtk::Frame* frame;
 		// Host
-		frame = Gtk::manage(new Gtk::Frame("Processes"));
+		frame = Gtk::manage(new Gtk::Frame("CPU Usage"));
 		frame->add(*this->_proc_label);
 		this->_box->pack_start(*frame);
 
@@ -32,16 +32,16 @@ ProcModule::ProcModule( bool has_widget ) : AMonitorModule('p', has_widget) {
 	}
 }
 
-ProcModule::~ProcModule( void ) {
+UsageModule::~UsageModule( void ) {
 	if (this->_has_widget) delete this->_box;
 }
 
-void ProcModule::refresh( void ) {
+void UsageModule::refresh( void ) {
 	FILE		*info;
 	char		buf[256];
 	std::string	procinfo;
 
-	info = popen("/usr/bin/top -l1 | /usr/bin/head -n1 | /usr/bin/tr ':,' '\\n\\n' | /usr/bin/tail -n5", "r");
+	info = popen("/usr/bin/top -l1 | /usr/bin/grep 'CPU usage' | /usr/bin/head -n1 | /usr/bin/tr ':,' '\n\n' | /usr/bin/tail -n3", "r");
 	if (info == NULL) {
 		this->_procinfo = "Information unavailable";
 		return ;
@@ -57,13 +57,13 @@ void ProcModule::refresh( void ) {
 	}
 }
 
-int ProcModule::toTerminal(int row, int height) {
+int UsageModule::toTerminal(int row, int height) {
 	if (height < 5) return 0;
-	std::string out(std::string("CPU Info: ") + this->_procinfo);
+	std::string out(std::string("CPU Usage: ") + this->_procinfo);
 	if (out.size() > static_cast<unsigned long>(COLS))
 		out.erase(COLS, std::string::npos);
 	mvaddstr(row, 0, out.c_str());
 	return 5;
 }
 
-Gtk::Widget* ProcModule::getWidget( void ) { return this->_box; }
+Gtk::Widget* UsageModule::getWidget( void ) { return this->_box; }

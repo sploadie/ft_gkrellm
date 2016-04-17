@@ -6,7 +6,7 @@
 #    By: tpaulmye <tpaulmye@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/20 16:35:37 by tgauvrit          #+#    #+#              #
-#    Updated: 2016/04/17 13:10:45 by tpaulmye         ###   ########.fr        #
+#    Updated: 2016/04/17 13:57:19 by tpaulmye         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ COMPILED_DIR_NAME =	compiled
 COMPILED_DIR =		./$(COMPILED_DIR_NAME)/
 
 FILENAMES =			main TerminalDisplay GraphicDisplay AMonitorModule NameModule \
-					OsInfoModule TimeModule CPUModule ProcModule
+					OsInfoModule TimeModule CPUModule ProcModule UsageModule
 
 COMPILED_PATHS :=	$(addsuffix .o,$(FILENAMES))
 COMPILED_PATHS :=	$(addprefix $(COMPILED_DIR),$(COMPILED_PATHS))

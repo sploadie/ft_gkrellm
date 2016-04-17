@@ -60,6 +60,9 @@ void GraphicDisplay::addModules(std::string modules) {
 			case 'p':
 				if (this->_modules.find(*it) == this->_modules.end()) { this->_modules[*it] = new ProcModule(true); new_widget = true; }
 				break;
+			case 'u':
+				if (this->_modules.find(*it) == this->_modules.end()) { this->_modules[*it] = new UsageModule(true); new_widget = true; }
+				break;
 			default:
 				std::cerr << "No valid Module '" << *it << "' found." << std::endl;
 		}
