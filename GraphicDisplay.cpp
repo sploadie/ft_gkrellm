@@ -9,7 +9,7 @@ GraphicDisplay::GraphicDisplay( void ) {
 	this->_app = Gtk::Application::create();
 
 	// Settings
-	Gtk::Settings::get_default()->property_gtk_font_name() = "Purisa 14";
+	Gtk::Settings::get_default()->property_gtk_font_name() = "Copperplate 14";
 
 	// Create the main window
 	this->_mainwin = new Gtk::Window(Gtk::WINDOW_TOPLEVEL);
