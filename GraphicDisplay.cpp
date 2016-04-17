@@ -72,6 +72,9 @@ void GraphicDisplay::addModules(std::string modules) {
 			case 'w':
 				if (this->_modules.find(*it) == this->_modules.end()) { this->_modules[*it] = new NetworkModule(true); new_widget = true; }
 				break;
+			case 'l':
+				if (this->_modules.find(*it) == this->_modules.end()) { this->_modules[*it] = new PonyModule(true); new_widget = true; }
+				break;
 			default:
 				std::cerr << "No valid Module '" << *it << "' found." << std::endl;
 		}

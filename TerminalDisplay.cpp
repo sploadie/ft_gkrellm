@@ -6,7 +6,7 @@
 /*   By: tpaulmye <tpaulmye@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/16 14:31:06 by tgauvrit          #+#    #+#             */
-/*   Updated: 2016/04/17 15:19:02 by tpaulmye         ###   ########.fr       */
+/*   Updated: 2016/04/17 17:06:02 by tpaulmye         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int TerminalDisplay::run( void ) {
 	while (42) {
 		if (time(NULL) == last_time) continue;
 		last_time = time(NULL);
-		refresh();
+		::refresh();
 		clear();
 		lines_remaining = LINES;
 		// try {
@@ -143,6 +143,12 @@ void TerminalDisplay::addModules(std::string modules) {
 			case 'w':
 				if (this->_modules.find(*it) == this->_modules.end()) {
 					this->_modules[*it] = new NetworkModule(false);
+					this->_types.append(1, *it);
+				}
+				break;
+			case 'l':
+				if (this->_modules.find(*it) == this->_modules.end()) {
+					this->_modules[*it] = new PonyModule(false);
 					this->_types.append(1, *it);
 				}
 				break;
